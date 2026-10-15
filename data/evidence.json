@@ -1,0 +1,592 @@
+{
+  "schema": 1,
+  "version": "0.1.0",
+  "checked_on": "2026-10-15",
+  "scope": "Sanitized evidence digest. Original systems were read only. Raw original reports, code and private paths are excluded.",
+  "claims": [
+    {
+      "id": "N26-ARCH",
+      "project": "DARNeuroX",
+      "version": "Карта CodeX_active_path_v.2.4 + выбранные исходники релиза 2.6",
+      "date": "2026-10-15 (дата чтения)",
+      "status": "VERIFIED_STATIC",
+      "value": "Python runtime, REST/WebSocket, координация чтений, TradingEngine/runtime mixins, SQLite ledger, версионные JSON/JSONL",
+      "method": "Прочитаны карта активного пути и выбранные файлы 2.6: engine.py, cli.py, runtime_io.py, ledger.py, storage.py.",
+      "sources": [
+        "N-ARCH",
+        "N-ENGINE",
+        "N-CLI",
+        "N-IO",
+        "N-LEDGER",
+        "N-STORAGE",
+        "N-MANIFEST"
+      ],
+      "limits": "Карта 2.4 и исходники 2.6 имеют самостоятельное происхождение. Проверены архитектурные связи; не заявлено исполнение всех путей и успешное завершение 2.7."
+    },
+    {
+      "id": "C105-ARCH",
+      "project": "DARCardioX",
+      "version": "10.5 + датированный Start_here",
+      "date": "2026-10-15 (дата чтения)",
+      "status": "VERIFIED_STATIC",
+      "value": "EA/MQL4, Watchdog, ограниченное хранение и диагностические потребители; владение, намерение, исход и ACK разделены",
+      "method": "Прочитаны Start_here.md и отчёт подготовленного пакета 10.5.",
+      "sources": [
+        "C-ENTRY",
+        "C-REPORT105",
+        "C-MANIFEST105"
+      ],
+      "limits": "Подтверждена документированная схема и границы подготовки; текущие службы и native broker execution для портфолио не запускались."
+    },
+    {
+      "id": "DTX-EVOLUTION",
+      "project": "DARTherapeX",
+      "version": "Паспорт 14.09.2026; последующий снимок 30.02 рассматривается отдельно",
+      "date": "2026-09-14",
+      "status": "HISTORICAL_REPORT",
+      "value": "Документирована эволюция от сценария/монолита к структуре: совместимость SDK/Protobuf, согласование состояния, устранение fallback-путей и систематические аудиты",
+      "method": "Прочитаны разделы паспорта об эволюции и работе над ошибками; структура более позднего снимка проверена отдельно.",
+      "sources": [
+        "DTX-PASSPORT",
+        "DTX-APPENDIX"
+      ],
+      "limits": "Исторический анализ процесса не подтверждает автоматически отсутствие дефектов или исполнение всех путей последующего выпуска."
+    },
+    {
+      "id": "DTX-30-SCALE",
+      "project": "DARTherapeX",
+      "version": "30.02 / sourceTree bb85e20d",
+      "date": "2026-10-13",
+      "status": "VERIFIED_STATIC",
+      "value": "622 main Java; 721 test Java; 1369 файлов архива",
+      "method": "Список ZIP, SHA256 raw bytes; 1368 внутренних контрольных сумм и 1355 файлов source manifest сверены без расхождений.",
+      "sources": [
+        "DTX-ARCHIVE",
+        "DTX-BUILD",
+        "DTX-MANIFEST"
+      ],
+      "limits": "Файлы тестового кода не равны тестам. Для этого архива результаты полного тестового прогона и измеренное покрытие не установлены."
+    },
+    {
+      "id": "DTX-30-ARCH",
+      "project": "DARTherapeX",
+      "version": "30.02",
+      "date": "2026-10-13",
+      "status": "VERIFIED_STATIC",
+      "value": "8 именованных слоёв; 39 интерфейсов domain ports; Java 17 / SDK / gRPC / Protobuf",
+      "method": "Структура архива, декларации pom.xml, выбранные порты и службы прочитаны.",
+      "sources": [
+        "DTX-ARCHIVE",
+        "DTX-POM",
+        "DTX-CODE-1",
+        "DTX-CODE-2",
+        "DTX-CODE-3",
+        "DTX-CODE-4",
+        "DTX-CODE-5"
+      ],
+      "limits": "Наличие архитектурных границ не подтверждает успешное исполнение всех ветвей восстановления."
+    },
+    {
+      "id": "DTX-OLD-TESTS",
+      "project": "DARTherapeX",
+      "version": "30.01 / tf-policy-split-20260914; 488 main / 274 test Java",
+      "date": "2026-09-14",
+      "status": "HISTORICAL_REPORT",
+      "value": "5471 tests; failures/errors/skipped 0/0/0; 262 XML suites по паспорту",
+      "method": "Сверены исходные паспорт и приложение DOCX. Вложенный source.zip пересчитан и сопоставлен по SHA256.",
+      "sources": [
+        "DTX-PASSPORT",
+        "DTX-APPENDIX",
+        "DTX-OLD-SOURCE"
+      ],
+      "limits": "Точное время прогона и raw Surefire XML не найдены в доступном контейнере. Подтверждено содержание исторического документа, а не повторный прогон. Не относится к выпуску 622/721."
+    },
+    {
+      "id": "DTX-OLD-COVERAGE",
+      "project": "DARTherapeX",
+      "version": "30.01 / tf-policy-split-20260914",
+      "date": "2026-09-14",
+      "status": "HISTORICAL_REPORT",
+      "value": "JaCoCo global LINE 67.8461%; 248 критических классов: порог LINE ≥80.01%, минимум 81.4978%",
+      "method": "Числа и область сопоставлены в паспорте и приложении; глобальный BRANCH неизвестен.",
+      "sources": [
+        "DTX-PASSPORT",
+        "DTX-APPENDIX"
+      ],
+      "limits": "Raw JaCoCo-отчёт не найден во вложенном source.zip. Это историческое документальное утверждение; не покрытие выпуска 30.02 и не гарантия качества."
+    },
+    {
+      "id": "N26-SCALE",
+      "project": "DARNeuroX",
+      "version": "2.6",
+      "date": "2026-10-15",
+      "status": "VERIFIED_STATIC",
+      "value": "69 Python-файлов src; 225 Python-файлов tests",
+      "method": "Перечислены *.py внутри закреплённого релиза без импорта и запуска.",
+      "sources": [
+        "N-MANIFEST"
+      ],
+      "limits": "Включены исторические модули и __init__.py. Это количество файлов, а не число активных компонентов или тестов."
+    },
+    {
+      "id": "N26-TESTS",
+      "project": "DARNeuroX",
+      "version": "2.6 / source cf6617d7",
+      "date": "2026-10-15T09:09:54+03:00",
+      "status": "HISTORICAL_REPORT",
+      "value": "3334 основных теста + отдельно 30 legacy; failures/errors/skipped 0/0/0 в обоих XML",
+      "method": "Сверены сохранённые pytest XML и verification summary; основной и legacy exit code 0.",
+      "sources": [
+        "N-MANIFEST",
+        "N-VERIFY",
+        "N-OFFLINE",
+        "N-XML",
+        "N-LEGACYXML"
+      ],
+      "limits": "OFFLINE, network DENIED; исходные тесты для портфолио не перезапускались. Не подтверждает live acceptance или результат версии 2.7."
+    },
+    {
+      "id": "N26-BENCH",
+      "project": "DARNeuroX",
+      "version": "2.6 / source cf6617d7",
+      "date": "2026-10-15",
+      "status": "HISTORICAL_REPORT",
+      "value": "790 уникальных instrument/bar за 43.188 s; duplicates 0; 5 синтетических защищённых позиций",
+      "method": "Сохранённый SYNTHETIC_790_WHOLE_ENGINE_REAL_CADENCE: реальное течение времени, искусственный wire delay 50 ms.",
+      "sources": [
+        "N-CAPACITY",
+        "N-MANIFEST"
+      ],
+      "limits": "Это локальный синтетический стенд исходного проекта; network/profile/logs DENIED. Не live SLA, не рыночные наблюдения и не результаты нового портфолио-демо."
+    },
+    {
+      "id": "N09-COVERAGE",
+      "project": "DARNeuroX",
+      "version": "0.9-src; привязка полного измеренного дерева к source pin не установлена",
+      "date": "2026-10-04T23:18:35.587606 (timezone UNKNOWN)",
+      "status": "HISTORICAL_REPORT",
+      "value": "coverage.py 7.16.2: 5844/6020 = 97.0764% statements/lines; 29 src paths",
+      "method": "Прочитан и хеширован сохранённый coverage.json. branch_coverage=false.",
+      "sources": [
+        "N-COVERAGE09"
+      ],
+      "limits": "Отчёт исторического выпуска 0.9. Не переносить на 2.6/2.7; их числовое покрытие UNKNOWN. Часовой пояс исходного timestamp отсутствует."
+    },
+    {
+      "id": "C105-SCALE",
+      "project": "DARCardioX",
+      "version": "10.5 / PREPARED_NOT_INSTALLED",
+      "date": "2026-10-15T21:04:05+03:00",
+      "status": "VERIFIED_STATIC",
+      "value": "24164 физических строки MQ4; 1543046 raw bytes",
+      "method": "Raw SHA256, размер байтов и число строк в исходном файле версии 10.5.",
+      "sources": [
+        "C-SOURCE105",
+        "C-MANIFEST105"
+      ],
+      "limits": "Размер включает комментарии, пустые строки, стратегию и инфраструктуру. Оригинальный исходник не включён. Измеренное LINE/BRANCH-покрытие UNKNOWN."
+    },
+    {
+      "id": "C105-COMPILE",
+      "project": "DARCardioX",
+      "version": "10.5 / PREPARED_NOT_INSTALLED",
+      "date": "2026-10-15T21:06:21+03:00",
+      "status": "HISTORICAL_REPORT",
+      "value": "MetaEditor: 0 errors, 0 warnings; 2501 ms",
+      "method": "Сохранённая квитанция компиляции PASS_NATIVE_COMPILER и метаданные пакета.",
+      "sources": [
+        "C-COMPILE105",
+        "C-MANIFEST105",
+        "C-REPORT105"
+      ],
+      "limits": "Код процесса 1 оценён источником по логу и бинарному файлу; это не общий exit code PASS. Здесь компилятор не запускался. Подготовленный пакет не означает установку или брокерское исполнение."
+    },
+    {
+      "id": "C105-HOST",
+      "project": "DARCardioX",
+      "version": "10.5",
+      "date": "2026-10-15",
+      "status": "HISTORICAL_REPORT",
+      "value": "Отдельные HOST-группы: 40 reservation; 14 quote/lot; 12 independent reservation; 36 independent source review; 29 typed readers",
+      "method": "Сопоставлены отдельные JSON-результаты групп, без суммирования в число уникальных тестов.",
+      "sources": [
+        "C-RESERVATION105",
+        "C-QUOTE105",
+        "C-RESERVATION-INDEP105",
+        "C-REVIEW105",
+        "C-READERS105"
+      ],
+      "limits": "HOST/source-body проверки и TEMP/mocks не равны native broker execution. Пересечение групп не определено; единого числа независимых тестов нет."
+    },
+    {
+      "id": "C105-REGRESSION",
+      "project": "DARCardioX",
+      "version": "10.5; варианты планов 10.3 / 10.4 / 10.5",
+      "date": "2026-10-15",
+      "status": "HISTORICAL_REPORT",
+      "value": "486 одинаковых controls × 3 варианта = 1458 PASS-исполнений; 21 run",
+      "method": "Сохранённый ComposedHOST Run_summary.json.",
+      "sources": [
+        "C-REGRESSION105"
+      ],
+      "limits": "1458 — повторные исполнения controls, не 1458 независимых тестов. Число не объединяется с HOST-группами или покрытиями других проектов."
+    },
+    {
+      "id": "KOSHKA-IDENTITY",
+      "project": "Koshka",
+      "version": "конфигурационный артефакт поставки 13.10.2026",
+      "date": "2026-10-13",
+      "status": "VERIFIED_STATIC",
+      "value": "Существует отдельный application.properties-Koshka, упомянутый в метаданных поставки",
+      "method": "Проверены имя, размер, SHA256 и упоминание в report/build identity. Значения конфигурации не публикуются.",
+      "sources": [
+        "KOSHKA-CONFIG-METADATA",
+        "DTX-BUILD",
+        "DTX-EXTERNAL-REPORT"
+      ],
+      "limits": "Название робота также подтверждено владельцем (USER_REPORT). Самостоятельная кодовая база, отдельный стек и числовые метрики UNKNOWN."
+    },
+    {
+      "id": "WF-PROCESS",
+      "project": "Метод ИИ-координации",
+      "version": "Кодекс/Вводная 02.10 + уточнение 15.10.2026",
+      "date": "2026-10-15",
+      "status": "VERIFIED_STATIC",
+      "value": "Документы задают роли, проверку понимания, ссылки на пункты, паспорт, журнал и передачу контекста",
+      "method": "Прочитаны первичные Кодекс и Вводная роли. Текущие роли и личный вклад — по сообщению владельца (USER_REPORT).",
+      "sources": [
+        "DTX-CODEX",
+        "DTX-ROLE-INTRO",
+        "WF-ROLE-ACCOUNT",
+        "WF-CYCLE-ACCOUNT"
+      ],
+      "limits": "Наличие регламента не гарантирует соблюдение каждого пункта, полной автономности или отсутствия ошибок ИИ. Аудит авторства каждого коммита не проводился."
+    },
+    {
+      "id": "WF-CAPTCHA31",
+      "project": "Метод ИИ-координации",
+      "version": "итерация 31",
+      "date": "2026-10-15",
+      "status": "VERIFIED_STATIC",
+      "value": "Сдача понимания/проектирования и приёмка архитектурной ИИ-ролью с уточнениями; S01–S30 NOT_RUN",
+      "method": "Два сохранённых текста сверены с оригинальными вложениями: SHA256 совпадают.",
+      "sources": [
+        "E31-01",
+        "E31-02",
+        "WF-CAPTCHA-REVIEW"
+      ],
+      "limits": "Не подтверждает реализацию, 30 пройденных тестов или разрешение владельца на запуск. Пример пересказан и обезличен; полные инструкции закрыты."
+    },
+    {
+      "id": "DEMO-RUNTIME",
+      "project": "Отдельный синтетический демонстратор",
+      "version": "0.1.0",
+      "date": "2026-10-15T21:24:37+03:00",
+      "status": "VERIFIED_RUNTIME",
+      "value": "31 unittest, failures/errors/skipped 0/0/0; 5 CLI-сценариев PASS",
+      "method": "Bundled Python 3.12.14; unittest + python -m demo.checks; python -m demo.run; только синтетические данные.",
+      "sources": [
+        "DEMO-COVERAGE",
+        "DEMO-REPORT"
+      ],
+      "limits": "Результаты только нового демо; ни один исходный робот или его тесты в этом прогоне не запускались."
+    },
+    {
+      "id": "DEMO-LINE",
+      "project": "Отдельный синтетический демонстратор",
+      "version": "0.1.0",
+      "date": "2026-10-15T21:24:37+03:00",
+      "status": "VERIFIED_RUNTIME",
+      "value": "211/213 = 99.06% исполняемых строк",
+      "method": "Python stdlib trace.Trace; executable lines from recursive dis.findlinestarts; demo/core.py + demo/fake_api.py",
+      "sources": [
+        "DEMO-COVERAGE"
+      ],
+      "limits": "Модульные импорты включены; run.py, checks.py и тесты вне области. BRANCH не измерено. Это метод trace/dis для точной версии Python, не переносимое сравнение со стандартным JaCoCo/coverage.py."
+    }
+  ],
+  "sources": [
+    {
+      "id": "N-ARCH",
+      "label": "CodeX_active_path_v.2.4.md",
+      "sha256": "75f83c1edda42dd6d98053ec636f268347913b3181e66db299bc9f74acd38892",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-ENGINE",
+      "label": "engine.py",
+      "sha256": "6c206a02d1a1975ede7512e4fbc513e9e88d9d5978bb322930abf160c780dfa4",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-CLI",
+      "label": "cli.py",
+      "sha256": "242f16ebaeeae32450dff6f5967ef57ab9432c0ef417a641b11ffae193e249fa",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-IO",
+      "label": "runtime_io.py",
+      "sha256": "4dea0c9be7d6b368238764d90ee10afb9b1889094d0fae1d5de564d8121c9023",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-LEDGER",
+      "label": "ledger.py",
+      "sha256": "817683dbd36c234bf2c525f4746e66945beb7a210850cbb415e32bdeb71827f8",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-STORAGE",
+      "label": "storage.py",
+      "sha256": "cd8fb212cd019e2063a91c18335f1ad59ff949362b989894bac12ff1948e3d0a",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-MANIFEST",
+      "label": "release_manifest.json",
+      "sha256": "839dd287befacffff3a7d274e61e5d399e7fd29569e3d8c16f43b1c5a22d57f6",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-ENTRY",
+      "label": "Start_here.md",
+      "sha256": "27303482cb43047feb08be01f219eaa20e57dbe023affcca659b590ba4876d37",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-REPORT105",
+      "label": "Runtime105_repair_report.md",
+      "sha256": "05af3804d9aa45bc014b681264bc2bc0247b1b11be5968f3ed7fa37dde5dbb31",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-MANIFEST105",
+      "label": "DARCardioX_v_10.5_manifest.json",
+      "sha256": "c7b63c5fb0dc12ebb9e31b752d7f314cb31a30fe6f39325dba78057407b1ffd0",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-PASSPORT",
+      "label": "2026-09-14 ПАСПОРТ DARTherapeX.docx",
+      "sha256": "1cd9fd9c09aa49e5aebba02f24407dd368bcc5d7c2b271305e21d3bd3df0ab27",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-APPENDIX",
+      "label": "2026-09-14 Приложение №1 DARTherapeX.docx",
+      "sha256": "fe3a3dcad613ef4bcda0968bbc123d34c3cb9c6287cdfc1a7274aaa3a62aaf80",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-ARCHIVE",
+      "label": "2026-10-13_11-29_bb85e20d.zip",
+      "sha256": "65c0aa886dd2ae016fd82f2443ee3e90b07c5412ee39258e502028cae5676eef",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-BUILD",
+      "label": "DARTherapeX ZIP :: build-identity.json",
+      "sha256": "71cf07577606f42cfa5dd73830e0f9f96db5ab8ee6475459224b9e10a8a1b457",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-MANIFEST",
+      "label": "DARTherapeX ZIP :: SOURCE-MANIFEST.json",
+      "sha256": "91608863d3870b5d4356cc94ba86b00907222a92f2024fad1fc2032a2c4d60fa",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-POM",
+      "label": "DARTherapeX ZIP :: pom.xml",
+      "sha256": "bb6eef0c4116fe551f809b6abc7d05a984ccd765a5b194078e3f5d2962793375",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-CODE-1",
+      "label": "DARTherapeX ZIP :: src/main/java/ru/myrobot/domain/ports/OrderGateway.java",
+      "sha256": "006fb8c819f088b92fa19ba02ecfe5f65ed3871561e0f206a4c4c8de129eb2b4",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-CODE-2",
+      "label": "DARTherapeX ZIP :: src/main/java/ru/myrobot/service/state/StateReconciliationService.java",
+      "sha256": "c4c7a64e78fb5872b98b4e61e7d32636aa8346a57e3ce2f7ef5f84dab659896f",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-CODE-3",
+      "label": "DARTherapeX ZIP :: src/main/java/ru/myrobot/infrastructure/runtime/RuntimeInstanceContext.java",
+      "sha256": "6effe11c65db53d37504ed73271c821d5773355c17b47a28556f8b5cd4e1e9b5",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-CODE-4",
+      "label": "DARTherapeX ZIP :: src/main/java/ru/myrobot/infrastructure/state/JournalFileTransaction.java",
+      "sha256": "d0a080f7fa75a3adf632f0902c1f6200cce1f00b0182d56950ab626479e3224e",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-CODE-5",
+      "label": "DARTherapeX ZIP :: src/main/java/ru/myrobot/infrastructure/diagnostics/TradeDiagnosticsJournal.java",
+      "sha256": "8da41165e52d49ac977c470d4cb0d35b5ff18dac1ceb355f041a3e11864e3060",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-OLD-SOURCE",
+      "label": "DARTherapeX ZIP :: reconstruction/source.zip",
+      "sha256": "464f9ac1953dced3989004597700cfce674b53650347ab799404f45471fe0d7a",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-VERIFY",
+      "label": "v26_verification_summary.json",
+      "sha256": "27581b1ad4a2424584a1709dd168c24acbacfabf716728c92e120983d398a9ab",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-OFFLINE",
+      "label": "v1_offline_verification.json",
+      "sha256": "2eb330559c3a5febbb99022b5c6c3c8f35b85e7c5b502e891846062f72138f42",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-XML",
+      "label": "v1_tests.xml",
+      "sha256": "6b4fac12edaaed960dc029b051492bb5bfe52a66d458f5ed6a49f1c8e5a04758",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-LEGACYXML",
+      "label": "v1_legacy_entry_tests.xml",
+      "sha256": "6551e6584de341b2016755c4fc8c076ecc6b8069cc67dfc96f76b38facb34213",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-CAPACITY",
+      "label": "v20_real_clock_capacity.json",
+      "sha256": "1d28aeec960e8403cd5bd1540674febcc9e1e45a048194d0e292e1b43d8d2608",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "N-COVERAGE09",
+      "label": "coverage.json",
+      "sha256": "da1ae3200a255afe4d95b1b73367a899e9a2035b440f247f0db63d36b2ca9c1c",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-SOURCE105",
+      "label": "DARCardioX_v_10.5.mq4",
+      "sha256": "aa96b96f55fe046683e0fd64f4c5836d87475e7f15b421b9db5c0cb7391ef1b2",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-COMPILE105",
+      "label": "compile_attempt_1.json",
+      "sha256": "8b113b888ca32069289f7f4c88ed64d2ca79d1f904966bd5ccbcbb683b17b0e5",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-RESERVATION105",
+      "label": "Reservation105_integrated_HOST.json",
+      "sha256": "c33e39c043429063f1a48f840274c3755320cb0baef50281a4a3a334f68bb7ba",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-QUOTE105",
+      "label": "Integrated_Quote_lot105_HOST.json",
+      "sha256": "e39e700b0b581effa20d89d942416c139b227c75bbb28a59e4a3abc5e877909b",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-RESERVATION-INDEP105",
+      "label": "Integrated_Reservation105_independent_HOST.json",
+      "sha256": "7c9ad18bbeca48acc386ba38f21eb48a96c82028208c70b2e7eba6367fce6011",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-REVIEW105",
+      "label": "Integrated_independent_source_review.json",
+      "sha256": "7597a543c511c13059fcacb5902abcb68dd9eb672bee6a69b1e06b8adfc3fffc",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-READERS105",
+      "label": "Consumer105_HOST.json",
+      "sha256": "41fa41f368c1b0c25135b17514b37708495306130b13f2d51e7ec45776180af2",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "C-REGRESSION105",
+      "label": "Run_summary.json",
+      "sha256": "9d9b358b0a17374280d3b274b7bec12c2ea09d15e6ec0ff789e0911905e6f0f7",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "KOSHKA-CONFIG-METADATA",
+      "label": "application.properties-Koshka",
+      "sha256": "9e4a16df906678e20f30f1a6ba1dcf6e8b4abc0aee7acd32470c3d224bd24595",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-EXTERNAL-REPORT",
+      "label": "report.md",
+      "sha256": "b223410c95cec5c640bee62cf41c8e489e2dcf61aef138f89903c501c7bf0b52",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-CODEX",
+      "label": "2026-10-02 Кодекс DARTherapeX.docx",
+      "sha256": "ee66b88312cb511e3e282dacdd69062563bfe2952d564fb58163fd959b3f744e",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DTX-ROLE-INTRO",
+      "label": "2026-10-02 Вводная Ока Бога DARTherapeX.docx",
+      "sha256": "d4c65d633edb65c1e5b75c5c0cec47801a7bbac9104f6af886644c5982df339d",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "WF-ROLE-ACCOUNT",
+      "label": "2026-10-15 Устройство ИИ-команд - уточнение.json",
+      "sha256": "54eac1de1c4ca3a324adeb211fd08c8cc5840bd9f5efb2ea0244cebfff0678ce",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "WF-CYCLE-ACCOUNT",
+      "label": "2026-10-15 Ускоренный цикл разработки - пример.json",
+      "sha256": "ce5caebd4041ef655a8e9604d91dcc1fef051e5f687765f740797659f83497b6",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "E31-01",
+      "label": "01 Сдача Капчи и проект Codex.txt",
+      "sha256": "e8f6eea4072610e504517c6b4c4c077672798c3672d1de28bcebefcabaa58d25",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "E31-02",
+      "label": "02 Разбор и приёмка Оком.txt",
+      "sha256": "56eb1de927f509e79177d098ccfdb1bc95c325e0b67ad61d8cd3db754e57fbe2",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "WF-CAPTCHA-REVIEW",
+      "label": "2026-10-15 Капча итерация 31 - проверка доказательств.json",
+      "sha256": "cfaa70b4e64d02d4d3839f2256a28229dcd72c67a6712f049028991353d15f37",
+      "availability": "PRIVATE_ORIGINAL_NOT_INCLUDED"
+    },
+    {
+      "id": "DEMO-COVERAGE",
+      "label": "demo/reports/coverage.json",
+      "sha256": "98b02079622d7746c9572e1b4ae9725a1b4f4ee70efaf9daec2927dd02284f67",
+      "availability": "PUBLIC_IN_THIS_PACKAGE"
+    },
+    {
+      "id": "DEMO-REPORT",
+      "label": "demo/reports/report.json",
+      "sha256": "0bfe516e2540813ffbc5cad40d3f29238a65006012189522924f15d905d51f09",
+      "availability": "PUBLIC_IN_THIS_PACKAGE"
+    }
+  ]
+}
