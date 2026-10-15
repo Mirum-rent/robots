@@ -1,0 +1,36 @@
+test_accepted_unknown_is_reconciled_after_restart_without_second_send (test_invariants.ReliabilityTests.test_accepted_unknown_is_reconciled_after_restart_without_second_send) ... ok
+test_ambiguous_schema_disables_startup (test_invariants.ReliabilityTests.test_ambiguous_schema_disables_startup) ... ok
+test_crash_after_effect_before_ack_preserves_uncertainty (test_invariants.ReliabilityTests.test_crash_after_effect_before_ack_preserves_uncertainty) ... ok
+test_digest_tampering_disables_startup (test_invariants.ReliabilityTests.test_digest_tampering_disables_startup) ... ok
+test_duplicate_receipt_after_restart_is_idempotent (test_invariants.ReliabilityTests.test_duplicate_receipt_after_restart_is_idempotent) ... ok
+test_error_state_cannot_be_confirmed_by_later_receipt (test_invariants.ReliabilityTests.test_error_state_cannot_be_confirmed_by_later_receipt) ... ok
+test_existing_empty_file_is_not_treated_as_new_state (test_invariants.ReliabilityTests.test_existing_empty_file_is_not_treated_as_new_state) ... ok
+test_fake_refuses_same_key_with_changed_payload (test_invariants.ReliabilityTests.test_fake_refuses_same_key_with_changed_payload) ... ok
+test_fake_rejects_unknown_mode (test_invariants.ReliabilityTests.test_fake_rejects_unknown_mode) ... ok
+test_fake_reuses_a_matching_receipt_for_the_same_key (test_invariants.ReliabilityTests.test_fake_reuses_a_matching_receipt_for_the_same_key) ... ok
+test_foreign_key_receipt_quarantines_unresolved_intent (test_invariants.ReliabilityTests.test_foreign_key_receipt_quarantines_unresolved_intent) ... ok
+test_foreign_receipt_also_quarantines_already_confirmed_state (test_invariants.ReliabilityTests.test_foreign_receipt_also_quarantines_already_confirmed_state) ... ok
+test_intent_is_committed_before_api_can_observe_send (test_invariants.ReliabilityTests.test_intent_is_committed_before_api_can_observe_send) ... ok
+test_invalid_synthetic_identifier_is_rejected_before_persisting (test_invariants.ReliabilityTests.test_invalid_synthetic_identifier_is_rejected_before_persisting) ... ok
+test_malformed_json_disables_startup (test_invariants.ReliabilityTests.test_malformed_json_disables_startup) ... ok
+test_not_accepted_unknown_stays_terminal_without_retry (test_invariants.ReliabilityTests.test_not_accepted_unknown_stays_terminal_without_retry) ... ok
+test_one_idempotency_key_cannot_authorize_two_intents (test_invariants.ReliabilityTests.test_one_idempotency_key_cannot_authorize_two_intents) ... ok
+test_payload_tampering_disables_startup (test_invariants.ReliabilityTests.test_payload_tampering_disables_startup) ... ok
+test_receipt_before_dispatch_cannot_skip_send_boundary (test_invariants.ReliabilityTests.test_receipt_before_dispatch_cannot_skip_send_boundary) ... ok
+test_reconcile_requires_an_unresolved_send (test_invariants.ReliabilityTests.test_reconcile_requires_an_unresolved_send) ... ok
+test_same_key_wrong_payload_receipt_cannot_confirm (test_invariants.ReliabilityTests.test_same_key_wrong_payload_receipt_cannot_confirm) ... ok
+test_semantically_corrupt_state_disables_startup (test_invariants.ReliabilityTests.test_semantically_corrupt_state_disables_startup) ... ok
+test_terminal_state_cannot_be_reset_to_prepared (test_invariants.ReliabilityTests.test_terminal_state_cannot_be_reset_to_prepared) ... ok
+test_two_open_engines_do_not_send_a_confirmed_intent_twice (test_invariants.ReliabilityTests.test_two_open_engines_do_not_send_a_confirmed_intent_twice) ... ok
+test_unavailable_lookup_does_not_infer_nonacceptance (test_invariants.ReliabilityTests.test_unavailable_lookup_does_not_infer_nonacceptance) ... ok
+test_unexpected_adapter_error_after_acceptance_is_unknown (test_invariants.ReliabilityTests.test_unexpected_adapter_error_after_acceptance_is_unknown) ... ok
+test_unknown_intent_does_not_send (test_invariants.ReliabilityTests.test_unknown_intent_does_not_send) ... ok
+test_unreadable_database_is_not_silently_recreated (test_invariants.ReliabilityTests.test_unreadable_database_is_not_silently_recreated) ... ok
+test_unsupported_schema_disables_startup (test_invariants.ReliabilityTests.test_unsupported_schema_disables_startup) ... ok
+test_all_scenarios_pass_and_report_is_deterministic (test_invariants.ScenarioTests.test_all_scenarios_pass_and_report_is_deterministic) ... ok
+test_explicit_output_persists_only_safe_reports (test_invariants.ScenarioTests.test_explicit_output_persists_only_safe_reports) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 4.465s
+
+OK

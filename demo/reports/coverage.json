@@ -1,0 +1,64 @@
+{
+  "status": "VERIFIED_RUNTIME",
+  "synthetic": true,
+  "generated_at_moscow": "2026-10-15T21:24:37+03:00",
+  "version": "0.1.0",
+  "python": "3.12.14",
+  "tool": "Python stdlib trace.Trace; executable lines from recursive dis.findlinestarts",
+  "command": "python -m demo.checks --output demo/reports",
+  "scope": [
+    "demo/core.py",
+    "demo/fake_api.py"
+  ],
+  "test_sources": [
+    {
+      "path": "demo/tests/test_invariants.py",
+      "sha256": "a45d65f54834c21a6a93f878af43f4bc9a03069db76ed6128003a87b1f3fb727"
+    }
+  ],
+  "measurement": "executed Python source lines; module imports included; branch coverage not measured",
+  "excluded": [
+    "demo/run.py",
+    "demo/checks.py",
+    "demo/tests/",
+    "all source robot projects"
+  ],
+  "tests": {
+    "run": 31,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true
+  },
+  "modules": [
+    {
+      "path": "demo/core.py",
+      "sha256": "f5c62b9e7d15a232c6b9533781f84521acc6ea72e847a9610aa3cc7d129bc9bc",
+      "executable_lines": 178,
+      "covered_lines": 176,
+      "missing_lines": [
+        92,
+        153
+      ],
+      "line_percent": 98.88
+    },
+    {
+      "path": "demo/fake_api.py",
+      "sha256": "1168273984fba88b9a36eb216a3884726202d62857ad1649fcb70910e5a5d052",
+      "executable_lines": 35,
+      "covered_lines": 35,
+      "missing_lines": [],
+      "line_percent": 100.0
+    }
+  ],
+  "total": {
+    "executable_lines": 213,
+    "covered_lines": 211,
+    "line_percent": 99.06
+  },
+  "limitations": [
+    "Line counts depend on the Python version and this exact source version.",
+    "This is not branch coverage, production reliability or profitability proof.",
+    "The source robots were not executed; their test and coverage metrics are separate."
+  ]
+}

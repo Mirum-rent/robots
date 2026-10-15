@@ -1,0 +1,226 @@
+      1    1: """Durable intent and reconciliation, independent of any network or strategy."""
+           2: 
+      1    3: from dataclasses import dataclass
+      1    4: import hashlib
+      1    5: import json
+      1    6: from pathlib import Path
+      1    7: import sqlite3
+      1    8: from typing import Callable, Protocol
+           9: 
+          10: 
+      1   11: STATES = frozenset({"PREPARED", "IN_FLIGHT", "UNKNOWN", "CONFIRMED", "NOT_ACCEPTED", "ERROR"})
+      1   12: TRANSITIONS = {
+      1   13:     "PREPARED": {"IN_FLIGHT"},
+      1   14:     "IN_FLIGHT": {"UNKNOWN", "CONFIRMED", "NOT_ACCEPTED", "ERROR"},
+      1   15:     "UNKNOWN": {"CONFIRMED", "NOT_ACCEPTED", "ERROR"},
+      1   16:     "CONFIRMED": {"ERROR"},
+      1   17:     "NOT_ACCEPTED": set(),
+      1   18:     "ERROR": set(),
+          19: }
+      1   20: PAYLOAD = {"operation": "record_sample", "sample": "SYNTHETIC-SAMPLE"}
+          21: 
+          22: 
+      2   23: class SafetyError(Exception):
+      1   24:     """The local state cannot authorize this operation."""
+          25: 
+          26: 
+      2   27: class StateIntegrityError(SafetyError):
+      1   28:     """Stored data is unreadable or violates the demonstrator's contract."""
+          29: 
+          30: 
+      2   31: class OutcomeUnknown(Exception):
+      1   32:     """The caller cannot infer acceptance from this transport outcome."""
+          33: 
+          34: 
+      2   35: class SimulatedCrash(Exception):
+      1   36:     """Deliberate stop after the fake service responds, before local ack."""
+          37: 
+          38: 
+      1   39: def digest(payload: dict) -> str:
+    428   40:     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    428   41:     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+          42: 
+          43: 
+      3   44: @dataclass(frozen=True)
+      2   45: class Intent:
+      1   46:     intent_id: str
+      1   47:     key: str
+      1   48:     payload: dict
+      1   49:     payload_digest: str
+      1   50:     state: str
+          51: 
+          52: 
+      3   53: @dataclass(frozen=True)
+      2   54: class Receipt:
+      1   55:     key: str
+      1   56:     payload_digest: str
+      1   57:     receipt_id: str
+          58: 
+          59: 
+      2   60: class SampleAPI(Protocol):
+      1   61:     def send(self, key: str, payload: dict) -> Receipt: ...
+          62: 
+      1   63:     def lookup(self, key: str) -> Receipt | None: ...
+          64: 
+          65: 
+      2   66: class IntentStore:
+      1   67:     """SQLite commits the intent and send boundary before an external effect.
+          68: 
+          69:     This is a small single-process demonstration, not a production database
+          70:     migration or remote-service exactly-once contract.
+          71:     """
+          72: 
+      1   73:     def __init__(self, path: Path):
+     70   74:         existing = path.exists()
+     70   75:         self.db = None
+     70   76:         try:
+     70   77:             self.db = sqlite3.connect(path)
+     70   78:             self.db.row_factory = sqlite3.Row
+     70   79:             self.db.execute("PRAGMA synchronous=FULL")
+     69   80:             if not existing:
+     88   81:                 with self.db:
+     44   82:                     self.db.execute("CREATE TABLE metadata (version INTEGER NOT NULL)")
+     44   83:                     self.db.execute("INSERT INTO metadata VALUES (1)")
+     44   84:                     self.db.execute("""CREATE TABLE intents (
+          85:                         intent_id TEXT PRIMARY KEY, key TEXT NOT NULL UNIQUE,
+          86:                         payload TEXT NOT NULL, payload_digest TEXT NOT NULL,
+          87:                         state TEXT NOT NULL)""")
+     69   88:             versions = self.db.execute("SELECT version FROM metadata").fetchall()
+     68   89:             if len(versions) != 1 or versions[0][0] != 1:
+      2   90:                 raise StateIntegrityError("Unsupported or ambiguous state version")
+     66   91:             if self.db.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
+MISSING   92:                 raise StateIntegrityError("SQLite integrity check failed")
+     81   93:             for row in self.db.execute("SELECT * FROM intents"):
+     22   94:                 self._decode(row)
+     11   95:         except (sqlite3.Error, StateIntegrityError) as exc:
+     11   96:             self.close()
+     11   97:             raise StateIntegrityError("State cannot be trusted; sending is disabled") from exc
+          98: 
+      1   99:     def close(self) -> None:
+     78  100:         if self.db is not None:
+     70  101:             self.db.close()
+     70  102:             self.db = None
+         103: 
+      2  104:     @staticmethod
+      2  105:     def _decode(row: sqlite3.Row) -> Intent:
+    367  106:         try:
+    367  107:             payload = json.loads(row["payload"])
+    366  108:             valid = (
+   1450  109:                 row["state"] in STATES
+    362  110:                 and row["intent_id"].startswith("SYN-INTENT-")
+    361  111:                 and row["key"].startswith("SYN-KEY-")
+    361  112:                 and payload == PAYLOAD
+    360  113:                 and digest(payload) == row["payload_digest"]
+         114:             )
+    366  115:             if not valid:
+      7  116:                 raise ValueError("Invalid intent")
+    359  117:             return Intent(row["intent_id"], row["key"], payload, row["payload_digest"], row["state"])
+      8  118:         except (TypeError, ValueError, IndexError, KeyError, AttributeError) as exc:
+      8  119:             raise StateIntegrityError("Invalid durable intent") from exc
+         120: 
+      1  121:     def prepare(self, intent_id: str, key: str) -> Intent:
+     38  122:         payload = json.dumps(PAYLOAD, sort_keys=True)
+     76  123:         candidate = {"intent_id": intent_id, "key": key, "payload": payload,
+     38  124:                      "payload_digest": digest(PAYLOAD), "state": "PREPARED"}
+     38  125:         self._decode(candidate)
+     37  126:         try:
+     74  127:             with self.db:
+     37  128:                 self.db.execute("INSERT INTO intents VALUES (?, ?, ?, ?, ?)", tuple(candidate.values()))
+      2  129:         except sqlite3.IntegrityError as exc:
+      2  130:             raise SafetyError("Intent or idempotency key already exists") from exc
+     35  131:         return self.get(intent_id)
+         132: 
+      1  133:     def get(self, intent_id: str) -> Intent:
+    308  134:         row = self.db.execute("SELECT * FROM intents WHERE intent_id = ?", (intent_id,)).fetchone()
+    308  135:         if row is None:
+      1  136:             raise SafetyError("Unknown intent")
+    307  137:         return self._decode(row)
+         138: 
+      1  139:     def transition(self, intent_id: str, expected: set[str], target: str) -> Intent:
+     70  140:         if target not in STATES or not expected or not expected <= STATES:
+      2  141:             raise SafetyError("Invalid state transition request")
+    136  142:         with self.db:
+     68  143:             current = self.get(intent_id)
+     68  144:             if current.state not in expected:
+      1  145:                 raise SafetyError("Current state does not authorize this transition")
+     67  146:             if target not in TRANSITIONS[current.state]:
+      1  147:                 raise SafetyError("The state machine forbids this transition")
+    132  148:             result = self.db.execute(
+     66  149:                 "UPDATE intents SET state = ? WHERE intent_id = ? AND state = ?",
+     66  150:                 (target, intent_id, current.state),
+         151:             )
+     66  152:             if result.rowcount != 1:
+MISSING  153:                 raise SafetyError("State changed concurrently")
+     66  154:         return self.get(intent_id)
+         155: 
+         156: 
+      2  157: class Engine:
+      1  158:     def __init__(self, store: IntentStore, api: SampleAPI, emit: Callable[..., None]):
+     55  159:         self.store, self.api, self.emit = store, api, emit
+         160: 
+      1  161:     def _event(self, event: str, intent: Intent, **details) -> None:
+    286  162:         self.emit(event=event, intent_id=intent.intent_id, idempotency_key=intent.key,
+    143  163:                   state=intent.state, details=details)
+         164: 
+      1  165:     def prepare(self, intent_id: str, key: str) -> Intent:
+     32  166:         intent = self.store.prepare(intent_id, key)
+     32  167:         self._event("intent_committed", intent, payload_digest=intent.payload_digest)
+     32  168:         return intent
+         169: 
+      1  170:     def dispatch(self, intent_id: str, *, crash_after_send: bool = False) -> Intent:
+     43  171:         intent = self.store.get(intent_id)
+     42  172:         if intent.state != "PREPARED":
+     17  173:             self._event("blind_retry_blocked", intent)
+     17  174:             raise SafetyError("Only a never-sent PREPARED intent may be sent")
+     25  175:         intent = self.store.transition(intent_id, {"PREPARED"}, "IN_FLIGHT")
+     25  176:         self._event("send_boundary_committed", intent)
+     25  177:         try:
+     25  178:             receipt = self.api.send(intent.key, intent.payload)
+     16  179:         except OutcomeUnknown:
+     15  180:             intent = self.store.transition(intent_id, {"IN_FLIGHT"}, "UNKNOWN")
+     15  181:             self._event("outcome_unknown", intent)
+     15  182:             return intent
+      1  183:         except Exception:
+         184:             # An unexpected adapter failure is equally ambiguous. Never retry.
+      1  185:             intent = self.store.transition(intent_id, {"IN_FLIGHT"}, "UNKNOWN")
+      1  186:             self._event("adapter_error_unknown", intent)
+      1  187:             return intent
+      9  188:         if crash_after_send:
+      4  189:             self._event("simulated_process_stop", intent)
+      4  190:             raise SimulatedCrash("Restart required; do not dispatch again")
+      5  191:         return self.deliver(intent_id, receipt)
+         192: 
+      1  193:     def deliver(self, intent_id: str, receipt: Receipt) -> Intent:
+     30  194:         intent = self.store.get(intent_id)
+     30  195:         if receipt.key != intent.key or receipt.payload_digest != intent.payload_digest:
+      6  196:             if intent.state in {"IN_FLIGHT", "UNKNOWN", "CONFIRMED"}:
+      6  197:                 intent = self.store.transition(intent_id, {intent.state}, "ERROR")
+      6  198:             self._event("foreign_receipt_blocked", intent)
+      6  199:             raise SafetyError("Receipt key or payload digest does not match")
+     24  200:         if intent.state == "CONFIRMED":
+      8  201:             self._event("duplicate_receipt_ignored", intent, receipt_id=receipt.receipt_id)
+      8  202:             return intent
+     16  203:         if intent.state not in {"IN_FLIGHT", "UNKNOWN"}:
+      2  204:             self._event("receipt_state_blocked", intent)
+      2  205:             raise SafetyError("Receipt cannot confirm this state")
+     14  206:         intent = self.store.transition(intent_id, {intent.state}, "CONFIRMED")
+     14  207:         self._event("receipt_confirmed", intent, receipt_id=receipt.receipt_id)
+     14  208:         return intent
+         209: 
+      1  210:     def reconcile(self, intent_id: str) -> Intent:
+     15  211:         intent = self.store.get(intent_id)
+     15  212:         if intent.state not in {"IN_FLIGHT", "UNKNOWN"}:
+      1  213:             raise SafetyError("Only an unresolved send may be reconciled")
+     14  214:         self._event("lookup_by_key", intent)
+     14  215:         try:
+     14  216:             receipt = self.api.lookup(intent.key)
+      1  217:         except Exception as exc:
+      1  218:             self._event("lookup_unavailable", intent)
+      1  219:             raise SafetyError("Lookup failed; uncertainty is preserved") from exc
+     13  220:         if receipt is not None:
+      9  221:             return self.deliver(intent_id, receipt)
+         222:         # This in-process fake is authoritative and strongly consistent.
+         223:         # A real eventually-consistent API must NOT infer rejection this way.
+      4  224:         intent = self.store.transition(intent_id, {intent.state}, "NOT_ACCEPTED")
+      4  225:         self._event("absence_confirmed_by_fake", intent)
+      4  226:         return intent

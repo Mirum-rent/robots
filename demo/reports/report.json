@@ -1,0 +1,348 @@
+{
+  "version": "0.1.0",
+  "synthetic": true,
+  "scope": "offline-demo-only",
+  "passed": true,
+  "scenarios": [
+    {
+      "id": "accepted_unknown",
+      "state_before_restart": "UNKNOWN",
+      "final_state": "CONFIRMED",
+      "checks": {
+        "one_send": true,
+        "blind_retry_blocked": true,
+        "restored_unresolved_state": true,
+        "expected_final_state": true,
+        "duplicate_receipt_no_state_change": true
+      },
+      "passed": true
+    },
+    {
+      "id": "rejected_unknown",
+      "state_before_restart": "UNKNOWN",
+      "final_state": "NOT_ACCEPTED",
+      "checks": {
+        "one_send": true,
+        "blind_retry_blocked": true,
+        "restored_unresolved_state": true,
+        "expected_final_state": true
+      },
+      "passed": true
+    },
+    {
+      "id": "restart_before_ack",
+      "state_before_restart": "IN_FLIGHT",
+      "final_state": "CONFIRMED",
+      "checks": {
+        "one_send": true,
+        "blind_retry_blocked": true,
+        "restored_unresolved_state": true,
+        "expected_final_state": true,
+        "duplicate_receipt_no_state_change": true
+      },
+      "passed": true
+    },
+    {
+      "id": "foreign_key_mismatch",
+      "final_state": "ERROR",
+      "checks": {
+        "foreign_receipt_blocked": true,
+        "quarantined": true,
+        "blind_retry_blocked": true,
+        "one_send": true
+      },
+      "passed": true
+    },
+    {
+      "id": "corrupt_state",
+      "final_state": "UNAVAILABLE",
+      "checks": {
+        "reopen_refused": true,
+        "no_api_constructed": true
+      },
+      "passed": true
+    }
+  ],
+  "trace": [
+    {
+      "seq": 1,
+      "scenario": "accepted_unknown",
+      "event": "intent_committed",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "PREPARED",
+      "details": {
+        "payload_digest": "3dd7cc9df3ae54aae1663cf1f0dc8eb0485d80b6bb6f9dc95a0fb6875d16550c"
+      }
+    },
+    {
+      "seq": 2,
+      "scenario": "accepted_unknown",
+      "event": "send_boundary_committed",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 3,
+      "scenario": "accepted_unknown",
+      "event": "outcome_unknown",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 4,
+      "scenario": "accepted_unknown",
+      "event": "state_restored",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 5,
+      "scenario": "accepted_unknown",
+      "event": "blind_retry_blocked",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 6,
+      "scenario": "accepted_unknown",
+      "event": "lookup_by_key",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 7,
+      "scenario": "accepted_unknown",
+      "event": "receipt_confirmed",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "CONFIRMED",
+      "details": {
+        "receipt_id": "SYN-RECEIPT-accepted_unknown"
+      }
+    },
+    {
+      "seq": 8,
+      "scenario": "accepted_unknown",
+      "event": "duplicate_receipt_ignored",
+      "intent_id": "SYN-INTENT-accepted_unknown",
+      "idempotency_key": "SYN-KEY-accepted_unknown",
+      "state": "CONFIRMED",
+      "details": {
+        "receipt_id": "SYN-RECEIPT-accepted_unknown"
+      }
+    },
+    {
+      "seq": 9,
+      "scenario": "rejected_unknown",
+      "event": "intent_committed",
+      "intent_id": "SYN-INTENT-rejected_unknown",
+      "idempotency_key": "SYN-KEY-rejected_unknown",
+      "state": "PREPARED",
+      "details": {
+        "payload_digest": "3dd7cc9df3ae54aae1663cf1f0dc8eb0485d80b6bb6f9dc95a0fb6875d16550c"
+      }
+    },
+    {
+      "seq": 10,
+      "scenario": "rejected_unknown",
+      "event": "send_boundary_committed",
+      "intent_id": "SYN-INTENT-rejected_unknown",
+      "idempotency_key": "SYN-KEY-rejected_unknown",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 11,
+      "scenario": "rejected_unknown",
+      "event": "outcome_unknown",
+      "intent_id": "SYN-INTENT-rejected_unknown",
+      "idempotency_key": "SYN-KEY-rejected_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 12,
+      "scenario": "rejected_unknown",
+      "event": "state_restored",
+      "intent_id": "SYN-INTENT-rejected_unknown",
+      "idempotency_key": "SYN-KEY-rejected_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 13,
+      "scenario": "rejected_unknown",
+      "event": "blind_retry_blocked",
+      "intent_id": "SYN-INTENT-rejected_unknown",
+      "idempotency_key": "SYN-KEY-rejected_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 14,
+      "scenario": "rejected_unknown",
+      "event": "lookup_by_key",
+      "intent_id": "SYN-INTENT-rejected_unknown",
+      "idempotency_key": "SYN-KEY-rejected_unknown",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 15,
+      "scenario": "rejected_unknown",
+      "event": "absence_confirmed_by_fake",
+      "intent_id": "SYN-INTENT-rejected_unknown",
+      "idempotency_key": "SYN-KEY-rejected_unknown",
+      "state": "NOT_ACCEPTED",
+      "details": {}
+    },
+    {
+      "seq": 16,
+      "scenario": "restart_before_ack",
+      "event": "intent_committed",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "PREPARED",
+      "details": {
+        "payload_digest": "3dd7cc9df3ae54aae1663cf1f0dc8eb0485d80b6bb6f9dc95a0fb6875d16550c"
+      }
+    },
+    {
+      "seq": 17,
+      "scenario": "restart_before_ack",
+      "event": "send_boundary_committed",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 18,
+      "scenario": "restart_before_ack",
+      "event": "simulated_process_stop",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 19,
+      "scenario": "restart_before_ack",
+      "event": "state_restored",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 20,
+      "scenario": "restart_before_ack",
+      "event": "blind_retry_blocked",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 21,
+      "scenario": "restart_before_ack",
+      "event": "lookup_by_key",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 22,
+      "scenario": "restart_before_ack",
+      "event": "receipt_confirmed",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "CONFIRMED",
+      "details": {
+        "receipt_id": "SYN-RECEIPT-restart_before_ack"
+      }
+    },
+    {
+      "seq": 23,
+      "scenario": "restart_before_ack",
+      "event": "duplicate_receipt_ignored",
+      "intent_id": "SYN-INTENT-restart_before_ack",
+      "idempotency_key": "SYN-KEY-restart_before_ack",
+      "state": "CONFIRMED",
+      "details": {
+        "receipt_id": "SYN-RECEIPT-restart_before_ack"
+      }
+    },
+    {
+      "seq": 24,
+      "scenario": "foreign_key_mismatch",
+      "event": "intent_committed",
+      "intent_id": "SYN-INTENT-foreign",
+      "idempotency_key": "SYN-KEY-foreign",
+      "state": "PREPARED",
+      "details": {
+        "payload_digest": "3dd7cc9df3ae54aae1663cf1f0dc8eb0485d80b6bb6f9dc95a0fb6875d16550c"
+      }
+    },
+    {
+      "seq": 25,
+      "scenario": "foreign_key_mismatch",
+      "event": "send_boundary_committed",
+      "intent_id": "SYN-INTENT-foreign",
+      "idempotency_key": "SYN-KEY-foreign",
+      "state": "IN_FLIGHT",
+      "details": {}
+    },
+    {
+      "seq": 26,
+      "scenario": "foreign_key_mismatch",
+      "event": "outcome_unknown",
+      "intent_id": "SYN-INTENT-foreign",
+      "idempotency_key": "SYN-KEY-foreign",
+      "state": "UNKNOWN",
+      "details": {}
+    },
+    {
+      "seq": 27,
+      "scenario": "foreign_key_mismatch",
+      "event": "foreign_receipt_blocked",
+      "intent_id": "SYN-INTENT-foreign",
+      "idempotency_key": "SYN-KEY-foreign",
+      "state": "ERROR",
+      "details": {}
+    },
+    {
+      "seq": 28,
+      "scenario": "foreign_key_mismatch",
+      "event": "blind_retry_blocked",
+      "intent_id": "SYN-INTENT-foreign",
+      "idempotency_key": "SYN-KEY-foreign",
+      "state": "ERROR",
+      "details": {}
+    },
+    {
+      "seq": 29,
+      "scenario": "corrupt_state",
+      "event": "corrupt_state_blocked",
+      "intent_id": "SYN-INTENT-corrupt",
+      "idempotency_key": "SYN-KEY-corrupt",
+      "state": "UNAVAILABLE",
+      "details": {
+        "reopen_refused": true,
+        "sends": 0
+      }
+    }
+  ]
+}
